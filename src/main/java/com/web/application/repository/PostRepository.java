@@ -37,6 +37,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findAllByStatus(int status, Pageable pageable);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM post WHERE status = ?1 AND id != ?2 ORDER BY published_at DESC LIMIT ?3")
+    @Query(nativeQuery = true, value = "SELECT * FROM post WHERE status = ?1 AND id != ?2 ORDER BY published_at DESC")
     List<Post> getLatestPostsNotId(int publicStatus, long id, int limit);
 }
