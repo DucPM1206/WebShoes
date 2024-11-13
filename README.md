@@ -8,3 +8,8 @@ Cách sử dụng project:
 5. Chạy bài và mở đường dẫn /localhost:8080
 6. Tài khoản admin: admin@gmail.com Mật khẩu: 12345678, Tài khoản user: user@gmail.com Mật khẩu: 12345678
 Dự án có sử dụng Template của okler.net
+
+Lưu ý:
+- Đổi mật khẩu kết nối SQL
+- Load Maven Project khi mới clone dự án (Kiểm tra thông báo)
+- Enable Lombok (Cũng ở phần thông báo)
