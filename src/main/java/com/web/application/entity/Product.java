@@ -196,12 +196,15 @@ import lombok.Setter;
 @NamedNativeQuery(
         name = "getProductOrders",
         resultSetMapping = "chartProductDTO",
-        query = "select p.name as label, sum(o.quantity) as value from product p " +
-                "inner join orders o on p.id = o.product_id " +
-                "where o.status = 3 and date_format(o.created_at,'%m') = ?1 " +
-                "and date_format(o.created_at,'%Y') = ?2 " +
-                "group by p.id order by sum(o.quantity) desc "
+        query = "SELECT p.name AS label, SUM(o.quantity) AS value " +
+                "FROM product p " +
+                "INNER JOIN orders o ON p.id = o.product_id " +
+                "WHERE o.status = 3 AND MONTH(o.created_at) = ?1 " +
+                "AND YEAR(o.created_at) = ?2 " +
+                "GROUP BY p.id, p.name " +
+                "ORDER BY SUM(o.quantity) DESC"
 )
+
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -47,8 +47,8 @@ import lombok.Setter;
         name = "adminGetListPost",
         resultSetMapping = "postInfoDto",
         query = "SELECT id, slug, title, thumbnail, " +
-                "DATE_FORMAT(created_at,'%d/%m/%Y %H:%i') as created_time, " +
-                "DATE_FORMAT(published_at,'%d/%m/%Y %H:%i') as published_time, " +
+                "FORMAT(created_at, 'dd/MM/yyyy HH:mm') AS created_time, " +
+                "FORMAT(published_at, 'dd/MM/yyyy HH:mm') AS published_time, " +
                 "(CASE WHEN status = true " +
                 "THEN 'Công khai' " +
                 "ELSE 'Nháp' " +
