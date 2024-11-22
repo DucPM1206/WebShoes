@@ -80,6 +80,7 @@ public class OrderController {
 
     @PostMapping("/api/admin/orders")
     public ResponseEntity<Object> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+    	System.out.println(createOrderRequest);
         User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         Order order = orderService.createOrder(createOrderRequest, user.getId());
         return ResponseEntity.ok(order);

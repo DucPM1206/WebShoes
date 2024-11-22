@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
+@ToString
 @Getter
 public class CreateOrderRequest {
 
@@ -39,10 +41,10 @@ public class CreateOrderRequest {
     private String couponCode;
 
     @JsonProperty("total_price")
-    private long totalPrice;
+    private int totalPrice;
 
     @JsonProperty("product_price")
-    private long productPrice;
+    private int productPrice;
 
     private String note;
 

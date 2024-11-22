@@ -290,7 +290,7 @@
         function render() {
             for (let i = 0; i < sizeVn.length; i++) {
                 let sizeChoose = `
-            <div class="item" data-size="${sizeVn[i]}VN" data-id="${sizeVn[i]}">
+            <div class="item" data-size="${sizeVn[i]}" data-id="${sizeVn[i]}">
                 ${sizeVn[i]}
             </div>
             `;
@@ -316,7 +316,7 @@
 
             for (let i = 0; i < sizeVn.length; i++) {
                 if (sizeVn[i] == availableSizes[0]) {
-                    $('.size-details').text(sizeVn[i] + "VN")
+                    $('.size-details').text(sizeVn[i])
                     break;
                 }
             }

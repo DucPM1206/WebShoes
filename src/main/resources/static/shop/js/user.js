@@ -153,15 +153,13 @@ function signedValidate(status = false, fullname = '', role = undefined) {
           `;
         $('.account-setting').replaceWith(notSignedLink);
     }
-	if(role === undefined || role === null) {
-		console.log("client")
-        $('#nav-link-admin').addClass("d-none");
-        return;
-    }
-    if (role.includes("ADMIN")) {
-		console.log("admin")
+    if (Array.isArray(role) && role.includes("ADMIN")) {
+        console.log("admin");
         $('#nav-link-admin').removeClass("d-none");
-    } 
+    } else {
+        console.log("client");
+        $('#nav-link-admin').addClass("d-none");
+    }
     
 }
 

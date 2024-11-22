@@ -22,6 +22,7 @@ public class ConfigInterceptor implements HandlerInterceptor {
 				modelAndView.addObject("user_phone", principal.getUser().getPhone());
 				modelAndView.addObject("user_email", principal.getUser().getEmail());
 				modelAndView.addObject("user_address", principal.getUser().getAddress());
+				modelAndView.addObject("user_roles", principal.getUser().getRoles());
 				modelAndView.addObject("isLogined", true);
 			} else {
 				modelAndView.addObject("isLogined", false);
