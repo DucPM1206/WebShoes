@@ -14,6 +14,7 @@
     <th:block id="css-resources">
         <link rel="stylesheet" th:href="@{/adminlte/pagination/simplePagination.css}">
         <link rel="stylesheet" th:href="@{/adminlte/css/order.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/css/invoice-print.css}">
     </th:block>
 </head>
 <body>
@@ -45,10 +46,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <a href="/admin/orders" class="btn btn-primary"><i
-                                    class="fas fa-chevron-left"></i> Trở về</a>
-                            <button type="button" id="addToTable" class="btn btn-primary btn-update-order">Cập nhật  <i
-                                    class="fas fa-plus"></i></button>
+                            <a href="/admin/orders" class="btn btn-primary">
+                                <i class="fas fa-chevron-left"></i> Trở về</a>
+                            <button type="button" id="addToTable" class="btn btn-primary btn-update-order">Cập nhật
+                                <i class="fas fa-plus"></i></button>
+                            <button type="button" id="printInvoice" class="btn btn-primary btn-print-invoice">In hóa đơn</button>
                         </div>
                     </div>
                 </div>
@@ -207,7 +209,79 @@
                 </div>
             </div>
         </section>
+    <section id="invoice-content" class="invoice-container">
+        <div class="invoice-header">
+            <div class="invoice-logo-background">
+                <img
+                        src="https://static.vecteezy.com/system/resources/previews/023/606/821/non_2x/shoes-logo-design-sneakers-logo-design-vector.jpg"
+                        alt="Logo"
+                        class="invoice-logo"
+                />
+            </div>
+            <div class="invoice-header-right">
+                <h1 class="invoice-title">Hóa đơn bán hàng</h1>
+            </div>
+        </div>
 
+        <div class="invoice-info">
+            <h3>Thông tin người nhận</h3>
+            <p><strong>Khách hàng:</strong> <span th:text="${order.receiverName}"></span></p>
+            <p><strong>Ngày đặt hàng:</strong> <span th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p><strong>Số điện thoại:</strong> <span th:text="${order.receiverPhone}"></span></p>
+            <p><strong>Địa chỉ:</strong>
+                <span th:text="${order.receiverAddress}"></span>
+            </p>
+        </div>
+
+        <h2 class="invoice-details-title">Chi tiết đơn hàng</h2>
+        <table class="invoice-table">
+            <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Kích cỡ</th>
+                <th>Giá tiền</th>
+                <th>Khuyến mãi</th>
+                <th>Mức giảm</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <a target="_blank" th:href="@{/admin/products/{slug}/{id}(id=${order.product.id}, slug=${order.product.slug})}" th:text="${order.product.name}"></a>
+                </td>
+                <td>
+                    <span th:text="${order.size}"></span>
+                    <th:block th:if="${order.status} == 1">
+                        <span th:if="${sizeIsAvailable} == false" class="badge badge-danger">Hết hàng</span>
+                    </th:block>
+                </td>
+                <td>
+                    <span class="text-price" th:text="${order.price}"></span> đ
+                </td>
+                <td>
+                    <span th:if="${order.promotion} != null" th:text="${order.promotion.couponCode}"></span>
+                </td>
+                <td>
+                    <div th:if="${order.promotion} != null">
+                        <th:block th:if="${order.promotion.discountType} == 1">
+                            <span th:text="${order.promotion.discountValue}"></span> %
+                        </th:block>
+                        <th:block th:if="${order.promotion.discountType} == 2">
+                            <span class="text-price" th:text="${order.promotion.discountValue}"></span> đ
+                        </th:block>
+                    </div>
+                </td>
+                <td>
+                    <span class="text-price" th:text="${order.totalPrice}"></span> đ
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="invoice-summary">
+            <p><strong>Tổng tiền cần thanh toán:</strong> <span th:text="${order.totalPrice}"></span> đ</p>
+        </div>
+    </section>
     <!-- Modal change detail order -->
     <th:block th:if="${order.status} == 1">
         <div class="modal fade" id="modal-change-detail-order" tabindex="-1" role="dialog" aria-labelledby="modalChangeDetailOrder" aria-hidden="true">
@@ -396,6 +470,20 @@
                 });
             }
         }
+
+        $('.btn-print-invoice').click(function () {
+            const invoiceContent = document.getElementById("invoice-content");
+            if (invoiceContent) {
+                invoiceContent.style.display = 'block';
+                const originalContent = document.body.innerHTML;
+                document.body.innerHTML = invoiceContent.outerHTML;
+                window.print();
+                window.onafterprint = function() {
+                    document.body.innerHTML = originalContent;
+                }
+                location.reload();
+            }
+        })
 
         $('.btn-update-order').click(function() {
             $('.invalid-feedback').hide();
