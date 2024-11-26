@@ -57,10 +57,6 @@
             <ul class="nav nav-tabs" id="main-tabs" role="tablist">
 
             </ul>
-            <div class="card-body tab-content" id="main-content">
-                <!-- Main content -->
-                
-            </div>
         </section>
     </form>
 
@@ -234,7 +230,10 @@
 
         function createNewTab(){
             const tabIndex = listOrder.length + 1;
-
+            if(tabIndex > 10) {
+                alert("Chỉ tạo tối đa 10 đơn hàng tạm");
+                return;
+            }
             createTabWithState(tabIndex, products[0].id, size[0], "", "", "", "", "");
 
             listOrder.push({
