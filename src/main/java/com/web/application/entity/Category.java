@@ -42,7 +42,7 @@ import lombok.Setter;
                 "inner join product p on p.id = pc.product_id " +
                 "inner join orders o on o.product_id = p.id " +
                 "where o.status = 3 " +
-                "group by c.id "
+                "group by c.name "
 )
 @AllArgsConstructor
 @NoArgsConstructor

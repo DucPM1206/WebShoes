@@ -1,6 +1,5 @@
 package com.web.application.service;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +13,17 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    List<UserDTO> getListUsers();
+	List<UserDTO> getListUsers();
 
-    Page<User> adminListUserPages(String fullName, String phone, String email, String role, Integer page);
+	public UserDTO getUsers(long id);
 
-    User createUser(CreateUserRequest createUserRequest);
-    User createAdmin(CreateUserRequest createUserRequest);
-    void changePassword(User user, ChangePasswordRequest changePasswordRequest);
+	Page<User> adminListUserPages(String fullName, String phone, String email, String role, Integer page);
 
-    User updateProfile(User user, UpdateProfileRequest updateProfileRequest);
+	User createUser(CreateUserRequest createUserRequest);
+
+	User createAdmin(CreateUserRequest createUserRequest);
+
+	void changePassword(User user, ChangePasswordRequest changePasswordRequest);
+
+	User updateProfile(User user, UpdateProfileRequest updateProfileRequest);
 }

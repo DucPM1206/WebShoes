@@ -86,16 +86,18 @@ public class OrderServiceImpl implements OrderService {
         user.setId(userId);
         order.setCreatedBy(user);
         order.setBuyer(user);
-        Promotion promotion = promotionService.checkPromotion(createOrderRequest.getCouponCode());
-        if (promotion == null) {
-            throw new NotFoundExp("Mã khuyến mãi không tồn tại hoặc chưa được kích hoạt");
+        if (createOrderRequest.getCouponCode() != "") {
+            Promotion promotion = promotionService.checkPromotion(createOrderRequest.getCouponCode());
+            if (promotion == null) {
+                throw new NotFoundExp("Mã khuyến mãi không tồn tại hoặc chưa được kích hoạt");
+            }
+            long promotionPrice = promotionService.calculatePromotionPrice(createOrderRequest.getProductPrice(), promotion);
+            if (promotionPrice != createOrderRequest.getTotalPrice()) {
+                throw new BadRequestExp("Tổng giá trị đơn hàng thay đổi. Vui lòng kiểm tra và đặt lại đơn hàng");
+            }
+            Order.UsedPromotion usedPromotion = new Order.UsedPromotion(createOrderRequest.getCouponCode(), promotion.getDiscountType(), promotion.getDiscountValue(), promotion.getMaximumDiscountValue());
+            order.setPromotion(usedPromotion);
         }
-        long promotionPrice = promotionService.calculatePromotionPrice(createOrderRequest.getProductPrice(), promotion);
-        if (promotionPrice != createOrderRequest.getTotalPrice()) {
-            throw new BadRequestExp("Tổng giá trị đơn hàng thay đổi. Vui lòng kiểm tra và đặt lại đơn hàng");
-        }
-        Order.UsedPromotion usedPromotion = new Order.UsedPromotion(createOrderRequest.getCouponCode(), promotion.getDiscountType(), promotion.getDiscountValue(), promotion.getMaximumDiscountValue());
-        order.setPromotion(usedPromotion);
         order.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         order.setReceiverAddress(createOrderRequest.getReceiverAddress());
         order.setReceiverName(createOrderRequest.getReceiverName());

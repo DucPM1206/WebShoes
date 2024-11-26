@@ -1,6 +1,7 @@
 package com.web.application.model.request;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -42,7 +43,10 @@ public class CreatePromotionRequest {
 
 	@JsonProperty("is_public")
 	private boolean isPublic;
-
+	
+	@JsonProperty("user_ids")
+	private ArrayList<Integer> userIds;
+	
 	private boolean active;
 
 	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)

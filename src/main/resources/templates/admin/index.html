@@ -287,7 +287,7 @@
 <th:block id="js-resources">
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-    <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js/3.1.0/dist/chart.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.0/chart.min.js}"></script>
     <script>
         let dataChartProductOrderedByCategory = [];
         let labelChartProductOrderedByCategory = [];
@@ -297,34 +297,6 @@
 
         let dataChartProductOrdered = [];
         let labelChartProductOrdered = [];
-
-        getListProductOrderedByCategory();
-        getListProductOrderedByBrand();
-        getListProductOrder();
-
-        function getListProductOrderedByCategory() {
-            $.ajax({
-                url: '/api/admin/product-order-categories',
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (res) {
-                    let data_get = res;
-                    for (var i = 0; i < data_get.length; i++) {
-                        dataChartProductOrderedByCategory.push(data_get[i].value);
-                        labelChartProductOrderedByCategory.push(data_get[i].label);
-                    }
-                    if ($("#barChart").length) {
-                        var barChartCanvas = $("#barChart").get(0).getContext("2d");
-                        // This will get the first returned node in the jQuery collection.
-                        var barChart = new Chart(barChartCanvas, {
-                            type: 'polarArea',
-                            data: data,
-                            options: doughnutPieOptions
-                        });
-                    }
-                }
-            })
-        }
 
         let data = {
             labels: labelChartProductOrderedByCategory,
@@ -346,6 +318,74 @@
                 animateScale: true,
                 animateRotate: true
             }
+        };
+
+        let doughnutPieOptionsProduct = {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
+
+        let doughnutPieOptionsBrand = {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
+
+        let dataProduct = {
+            labels: labelChartProductOrdered,
+            datasets: [{
+                label: 'Số lượng sản phẩm',
+                data: dataChartProductOrdered,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 205, 86)',
+                    'rgb(201, 203, 207)',
+                    'rgb(54, 162, 235)'
+                ],
+            }],
+        };
+
+        function getListProductOrderedByCategory() {
+            $.ajax({
+                url: '/api/admin/product-order-categories',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    let data_get = res;
+                    for (var i = 0; i < data_get.length; i++) {
+                        dataChartProductOrderedByCategory.push(data_get[i].value);
+                        labelChartProductOrderedByCategory.push(data_get[i].label);
+                    }
+                    if ($("#barChart").length) {
+                        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                        var barChart = new Chart(barChartCanvas, {
+                            type: 'polarArea',
+                            data: data,
+                            options: doughnutPieOptions
+                        });
+                    }
+                }
+            })
+        }
+
+        let dataBrand = {
+            labels: labelChartProductOrderedByBrand,
+            datasets: [{
+                data: dataChartProductOrderedByBrand,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 205, 86)',
+                    'rgb(201, 203, 207)',
+                    'rgb(54, 162, 235)'
+                ],
+            }],
         };
 
         function getListProductOrderedByBrand() {
@@ -372,28 +412,6 @@
             })
         }
 
-        let dataBrand = {
-            labels: labelChartProductOrderedByBrand,
-            datasets: [{
-                data: dataChartProductOrderedByBrand,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255, 205, 86)',
-                    'rgb(201, 203, 207)',
-                    'rgb(54, 162, 235)'
-                ],
-            }],
-        };
-
-        let doughnutPieOptionsBrand = {
-            responsive: true,
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        };
-
         function getListProductOrder() {
             $.ajax({
                 url: '/api/admin/product-order',
@@ -418,28 +436,9 @@
             })
         }
 
-        let dataProduct = {
-            labels: labelChartProductOrdered,
-            datasets: [{
-                label: 'Số lượng sản phẩm',
-                data: dataChartProductOrdered,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255, 205, 86)',
-                    'rgb(201, 203, 207)',
-                    'rgb(54, 162, 235)'
-                ],
-            }],
-        };
-
-        let doughnutPieOptionsProduct = {
-            responsive: true,
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        };
+        getListProductOrderedByCategory();
+        getListProductOrderedByBrand();
+        getListProductOrder();
     </script>
     <script>
         let chart = new Morris.Bar({
