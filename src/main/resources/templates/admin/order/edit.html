@@ -212,11 +212,7 @@
     <section id="invoice-content" class="invoice-container">
         <div class="invoice-header">
             <div class="invoice-logo-background">
-                <img
-                        src="https://static.vecteezy.com/system/resources/previews/023/606/821/non_2x/shoes-logo-design-sneakers-logo-design-vector.jpg"
-                        alt="Logo"
-                        class="invoice-logo"
-                />
+                <img th:src="@{https://static.vecteezy.com/system/resources/previews/023/606/821/non_2x/shoes-logo-design-sneakers-logo-design-vector.jpg}" alt="logo" class="invoice-logo">
             </div>
             <div class="invoice-header-right">
                 <h1 class="invoice-title">Hóa đơn bán hàng</h1>
@@ -478,10 +474,8 @@
                 const originalContent = document.body.innerHTML;
                 document.body.innerHTML = invoiceContent.outerHTML;
                 window.print();
-                window.onafterprint = function() {
-                    document.body.innerHTML = originalContent;
-                }
-                location.reload();
+                document.body.innerHTML = originalContent;
+                window.location.reload();
             }
         })
 
