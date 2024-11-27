@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <div>
                                          <span style="color:red">(Mã kích hoạt chỉ bao gồm ký tự
-                                        viết hoa từ A-Z và số từ 0-9 và dấu gạch ngang (độ dài từ 4 - 16 ký tự)]</span>
+                                        viết hoa từ A-Z và số từ 0-9 và dấu gạch ngang (độ dài từ 1 - 100 ký tự)]</span>
                                         <br>
                                         <label class="required-label" for="code">Mã code</label>
 
@@ -178,7 +178,7 @@
             let isValid = true;
 
             let regex = new RegExp("^[0-9A-Z-]+$");
-            if (code.length === 0 || regex.test(code) === false) {
+            if (code.length === 0 || code.length > 10 || regex.test(code) === false) {
                 $('#invalid-feedback-code').show();
                 isValid = false;
             }

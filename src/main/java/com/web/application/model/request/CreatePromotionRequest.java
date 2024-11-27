@@ -24,6 +24,7 @@ import lombok.Setter;
 public class CreatePromotionRequest {
 	@NotBlank(message = "Mã code rỗng")
 	@Pattern(regexp = "^[0-9A-Z-]+$", message = "Mã code không đúng định dạng")
+	@Size(min = 1, max = 10, message = "Độ dài tên từ 1 - 10 kí tự")
 	private String code;
 
 	@NotBlank(message = "Tên rỗng")

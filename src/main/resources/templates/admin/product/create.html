@@ -203,6 +203,15 @@
             $(btn).parent().remove();
         }
 
+        $.validator.addMethod("positiveNumber", function(value, element) {
+            return this.optional(element) || value >= 0;  // Kiểm tra nếu giá trị là số âm
+        }, "Giá phải là số dương hoặc bằng 0");
+
+
+        $.validator.addMethod("validPriceRange", function(value, element) {
+            return this.optional(element) || (value >= 1000 && value <= 1000000000);  // Kiểm tra giá trị nằm trong khoảng 1000 đến 1 tỷ
+        }, "Giá phải lớn hơn hoặc bằng 1 và nhỏ hơn hoặc bằng 1 tỷ!");
+
         // $('.money').simpleMoneyFormat();
 
         $("#formProduct").submit(function (e) {
@@ -221,9 +230,13 @@
                 },
                 price: {
                     required: true,
+                    positiveNumber: true,
+                    validPriceRange: true,
                 },
                 salePrice: {
                     required: true,
+                    positiveNumber: true,
+                    validPriceRange: true,
                 },
                 image:{
                     required:true,
@@ -242,9 +255,13 @@
                 },
                 price: {
                     required: "Giá sản phẩm trống. Vui lòng nhập giá sản phẩm!",
+                    positiveNumber: "Giá sản phẩm phải là số dương hoặc bằng 0!",
+                    validPriceRange: "Giá phải lớn hơn hoặc bằng 100000 và nhỏ hơn hoặc bằng 1 tỷ!"
                 },
                 salePrice: {
                     required: "Giá bán sản phẩm trống. Vui lòng nhập giá bán sản phẩm!",
+                    positiveNumber: "Giá bán sản phẩm phải là số dương hoặc bằng 0!",
+                    validPriceRange: "Giá phải lớn hơn hoặc bằng 100000 và nhỏ hơn hoặc bằng 1 tỷ!"
                 },
                 image:{
                     required:"Ảnh sản phẩm trống. Vui lòng chọn ảnh cho sản phẩm!",
