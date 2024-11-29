@@ -1,4 +1,5 @@
 # WebShoes
+Hiện tại project đã dừng cập nhật do 1 số vấn đề về bảo mật. Code vẫn sẽ hoạt động nhưng tôi sẽ ngừng cập nhật thêm trên github này
 
 Cách sử dụng project:
 1. Clone project về máy
